@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="إبداع الطالب يوسف عز">
+    <title>الفصل 1/8 | أولى ثانوي - مدرسة الإحصاء الثانوية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a237e; --primary-light: #534bae; --primary-dark: #000051;
+            --secondary: #ff6f00; --secondary-light: #ffa040;
+            --accent: #00c853; --gold: #ffd700; --white: #ffffff; --dark: #263238;
+            --gray-50: #fafafa; --gray-100: #f5f5f5; --gray-200: #eeeeee; --gray-300: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1); --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.15); --shadow-xl: 0 20px 40px rgba(0,0,0,0.2);
+            --radius-full: 9999px; --radius-2xl: 1.5rem; --radius-3xl: 2rem;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: 'Cairo', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); color: var(--dark); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
+        ::-webkit-scrollbar { width: 12px; } ::-webkit-scrollbar-track { background: var(--gray-100); } ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 6px; }
+
+        .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s; flex-direction: column; }
+        .loader.hidden { opacity: 0; pointer-events: none; }
+        .loader-spinner { width: 80px; height: 80px; border: 6px solid rgba(255,255,255,0.3); border-top-color: var(--gold); border-radius: 50%; animation: rotate 1s linear infinite; margin-bottom: 20px; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .loader-text { color: var(--white); font-size: 1.5rem; font-weight: 700; }
+
+        .main-header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: var(--white); padding: 1rem 0; box-shadow: var(--shadow-lg); position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--gold); }
+        .header-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .logo { display: flex; align-items: center; gap: 1rem; cursor: pointer; }
+        .logo-icon { width: 60px; height: 60px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary-dark); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .logo-text h1 { font-size: 1.8rem; font-weight: 800; } .logo-text p { font-size: 0.9rem; opacity: 0.9; }
+        .header-info { text-align: left; background: rgba(255,255,255,0.1); padding: 0.8rem 1.5rem; border-radius: 1rem; }
+        .header-info p { margin: 0.3rem 0; font-size: 0.95rem; } .header-info strong { color: var(--gold); }
+
+        .class-leaders-section { background: linear-gradient(135deg, var(--gold) 0%, #ffed4e 100%); color: var(--primary-dark); padding: 2rem; border-radius: var(--radius-3xl); margin: 2rem auto; max-width: 1400px; box-shadow: var(--shadow-xl); border: 3px solid var(--primary); }
+        .class-leaders-title { text-align: center; font-size: 2rem; font-weight: 800; margin-bottom: 1.5rem; }
+        .class-leaders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .leader-card { background: var(--white); border-radius: var(--radius-2xl); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-md); transition: all 0.3s; border: 3px solid var(--primary); }
+        .leader-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); }
+        .leader-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--primary); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1rem; border: 3px solid var(--gold); }
+        .leader-name { font-size: 1.5rem; font-weight: 800; color: var(--primary); } .leader-role { font-size: 1.1rem; color: var(--secondary); font-weight: 700; }
+        .leader-badge { background: var(--gold); padding: 0.3rem 1rem; border-radius: 50px; font-weight: 700; font-size: 0.9rem; }
+
+        .search-container { position: relative; width: 100%; max-width: 500px; margin: 1rem auto 0; }
+        .search-input-wrapper { position: relative; }
+        .search-input { width: 100%; padding: 0.9rem 3rem 0.9rem 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 50px; background: rgba(255,255,255,0.15); color: var(--white); font-size: 1rem; font-family: inherit; outline: none; transition: all 0.3s; }
+        .search-input:focus { background: rgba(255,255,255,0.25); border-color: var(--gold); }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.7); }
+        .search-results { position: absolute; top: 110%; right: 0; left: 0; background: var(--white); border-radius: 1rem; box-shadow: var(--shadow-xl); max-height: 300px; overflow-y: auto; display: none; z-index: 1001; }
+        .search-results.active { display: block; }
+        .search-result-item { padding: 1rem; border-bottom: 1px solid var(--gray-200); display: flex; justify-content: space-between; cursor: pointer; }
+        .search-result-item:hover { background: var(--gray-100); }
+        .result-type { background: var(--gold); color: var(--primary-dark); padding: 0.2rem 0.8rem; border-radius: 50px; font-size: 0.85rem; font-weight: 700; }
+
+        .main-nav { background: rgba(255,255,255,0.95); padding: 1rem 0; box-shadow: var(--shadow-md); position: sticky; top: 100px; z-index: 999; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .nav-menu { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; list-style: none; }
+        .nav-menu li a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.5rem; background: var(--primary); color: var(--white); text-decoration: none; border-radius: 50px; font-weight: 600; transition: all 0.3s; cursor: pointer; }
+        .nav-menu li a:hover, .nav-menu li a.active { transform: translateY(-3px); background: var(--secondary); }
+        .nav-menu li a.nav-boys { background: linear-gradient(135deg, #2196f3, #1565c0); }
+        .nav-menu li a.nav-girls { background: linear-gradient(135deg, #e91e63, #c2185b); }
+
+        .page-section { display: none; animation: fadeIn 0.5s ease; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .main-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .section { background: var(--white); border-radius: var(--radius-3xl); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); }
+        .section-title { font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 4px solid var(--gold); display: flex; align-items: center; gap: 1rem; }
+
+        .wisdom-section { background: var(--primary); color: var(--white); text-align: center; padding: 3rem 2rem; border-radius: var(--radius-3xl); margin-bottom: 2rem; box-shadow: var(--shadow-xl); border: 3px solid var(--gold); position: relative; overflow: hidden; }
+        .wisdom-section::before { content: '"'; position: absolute; top: -40px; right: 40px; font-size: 300px; opacity: 0.1; font-family: 'Amiri', serif; }
+        .wisdom-icon { font-size: 3rem; color: var(--gold); margin-bottom: 1rem; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .wisdom-text { font-size: 1.5rem; font-family: 'Amiri', serif; line-height: 2; margin-bottom: 1rem; position: relative; z-index: 1; }
+        .wisdom-source { color: var(--gold); font-style: italic; position: relative; z-index: 1; }
+
+        .motivation-section { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: var(--white); text-align: center; padding: 2rem; border-radius: var(--radius-3xl); margin-bottom: 2rem; box-shadow: var(--shadow-xl); border: 3px solid var(--white); }
+        .motivation-text { font-size: 1.4rem; font-weight: 700; line-height: 1.8; }
+
+        .prayer-times-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+        .prayer-card { background: var(--primary); color: var(--white); padding: 1.5rem; border-radius: 1rem; text-align: center; transition: all 0.3s; }
+        .prayer-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); }
+        .prayer-time { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+
+        .tasbih-wrapper { background: linear-gradient(135deg, #0d1442 0%, #1a237e 50%, #283593 100%); border-radius: var(--radius-3xl); padding: 3rem 2rem 2rem; text-align: center; color: var(--white); box-shadow: var(--shadow-xl); border: 3px solid var(--gold); position: relative; overflow: hidden; }
+        .tasbih-wrapper::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%); border-radius: 50%; }
+        .tasbih-header { position: relative; z-index: 1; margin-bottom: 2rem; }
+        .tasbih-header h2 { font-size: 2rem; font-weight: 800; color: var(--gold); margin-bottom: 0.5rem; }
+        .tasbih-main { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+        .tasbih-display { position: relative; width: 280px; height: 280px; margin-bottom: 2rem; }
+        .tasbih-outer-ring { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 6px solid var(--gold); border-radius: 50%; animation: rotateSlow 8s linear infinite; }
+        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .tasbih-inner-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 240px; height: 240px; background: radial-gradient(circle at 30% 30%, rgba(83,75,174,0.8), rgba(0,0,81,0.9)); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s; box-shadow: inset 0 0 40px rgba(255,215,0,0.1), 0 0 30px rgba(0,0,0,0.3); }
+        .tasbih-inner-circle:hover { transform: translate(-50%, -50%) scale(1.05); }
+        .tasbih-inner-circle:active { transform: translate(-50%, -50%) scale(0.95); }
+        .tasbih-count { font-size: 4.5rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 20px rgba(255,215,0,0.5); line-height: 1; }
+        .tasbih-count-label { font-size: 1rem; opacity: 0.7; margin-top: 0.5rem; }
+        .tasbih-progress-ring { position: absolute; top: 15px; left: 15px; width: 250px; height: 250px; border-radius: 50%; }
+        .tasbih-progress-ring circle { fill: none; stroke-width: 4; stroke-linecap: round; transform: rotate(-90deg); transform-origin: center; }
+        .tasbih-progress-ring .progress-bg { stroke: rgba(255,255,255,0.1); }
+        .tasbih-progress-ring .progress-fill { stroke: var(--gold); transition: stroke-dashoffset 0.3s; }
+        .tasbih-dhikr-select { position: relative; z-index: 1; margin-bottom: 1.5rem; }
+        .tasbih-dhikr-select label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--gold); }
+        .tasbih-dhikr-select select { padding: 0.8rem 1.5rem; border: 2px solid var(--gold); border-radius: 50px; font-size: 1rem; font-family: inherit; cursor: pointer; background: rgba(255,255,255,0.1); color: var(--white); outline: none; }
+        .tasbih-dhikr-select select option { background: var(--primary-dark); color: var(--white); }
+        .tasbih-target-display { position: relative; z-index: 1; background: rgba(255,215,0,0.15); border: 2px solid var(--gold); border-radius: 50px; padding: 0.8rem 2rem; margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+        .tasbih-buttons { position: relative; z-index: 1; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .tasbih-btn { padding: 0.8rem 2rem; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; font-family: inherit; }
+        .tasbih-btn-reset { background: rgba(255,255,255,0.15); color: var(--white); border: 2px solid rgba(255,255,255,0.3); }
+        .tasbih-total { position: relative; z-index: 1; margin-top: 1.5rem; font-size: 1rem; opacity: 0.7; }
+        .tasbih-total span { color: var(--gold); font-weight: 700; font-size: 1.3rem; }
+
+        .quick-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .quick-link-card { background: var(--primary); color: var(--white); padding: 2rem; border-radius: 1rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .quick-link-card:hover { transform: translateY(-5px); background: var(--secondary); }
+        .quick-link-card i { font-size: 3rem; margin-bottom: 1rem; }
+
+        .students-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
+        .students-category { background: var(--gray-100); border-radius: 1.5rem; padding: 2rem; border: 3px solid var(--primary); }
+        .category-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 3px solid var(--gold); }
+        .category-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+        .boys .category-icon { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .girls .category-icon { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .category-title { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .category-count { background: var(--gold); color: var(--primary-dark); padding: 0.3rem 1rem; border-radius: 50px; font-weight: 700; margin-right: auto; }
+        .students-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.8rem; list-style: none; }
+        .student-item { background: var(--white); padding: 0.8rem 1rem; border-radius: 0.5rem; display: flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow-sm); transition: all 0.3s; }
+        .student-item:hover { transform: translateX(-5px); background: var(--primary); color: var(--white); }
+        .student-number { background: var(--gold); color: var(--primary-dark); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+
+        .table-wrapper { overflow-x: auto; border-radius: 1rem; box-shadow: var(--shadow-md); }
+        .schedule-table { width: 100%; border-collapse: collapse; background: var(--white); min-width: 900px; }
+        .schedule-table thead { background: var(--primary); color: var(--white); }
+        .schedule-table th, .schedule-table td { padding: 0.8rem 0.5rem; text-align: center; border: 1px solid var(--gray-300); font-size: 0.95rem; }
+        .schedule-table th { font-weight: 700; font-size: 1rem; }
+        .schedule-table tbody tr:hover { background: var(--gray-100); }
+        .schedule-table tbody tr:nth-child(even) { background: var(--gray-50); }
+        .day-cell { font-weight: 800; color: var(--white); font-size: 1.2rem; background: var(--primary); white-space: nowrap; }
+        .subject-cell { font-weight: 600; padding: 0.6rem 0.4rem; border-radius: 0.5rem; color: var(--white); min-width: 100px; }
+        .subject-cell:not(.empty-cell) { background: var(--primary-light); }
+        .empty-cell { background: var(--gray-200); color: var(--gray-500); font-weight: 400; }
+        .teacher-name { font-size: 0.75rem; opacity: 0.9; margin-top: 0.2rem; display: block; }
+        .subject-arabic { background: #4caf50 !important; } .subject-english { background: #2196f3 !important; } .subject-french { background: #9c27b0 !important; } .subject-math { background: #ff5722 !important; } .subject-history { background: #795548 !important; } .subject-philosophy { background: #607d8b !important; } .subject-science { background: #00bcd4 !important; } .subject-programming { background: #4caf50 !important; } .subject-games { background: #ff9800 !important; } .subject-religion { background: #3f51b5 !important; } .subject-activity { background: #e91e63 !important; }
+
+        .translator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .translator-box textarea { width: 100%; padding: 1rem; border: 2px solid var(--primary); border-radius: 1rem; font-family: inherit; font-size: 1rem; resize: none; min-height: 150px; outline: none; }
+        .translator-box textarea:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.3); }
+        .translator-controls { display: flex; flex-direction: column; justify-content: center; gap: 1rem; }
+        .translator-controls select { padding: 0.8rem; border: 2px solid var(--primary); border-radius: 1rem; font-family: inherit; font-size: 1rem; outline: none; }
+        .translator-controls button { padding: 1rem; background: var(--primary); color: var(--white); border: none; border-radius: 1rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+        .translator-controls button:hover { background: var(--secondary); transform: translateY(-2px); }
+        .translation-result { margin-top: 1.5rem; padding: 1.5rem; background: var(--gray-50); border-radius: 1rem; border: 2px solid var(--gold); min-height: 100px; font-size: 1.2rem; white-space: pre-wrap; line-height: 1.8; }
+
+        .games-hub { text-align: center; }
+        .games-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+        .game-tab { padding: 0.8rem 1.5rem; background: var(--gray-200); border: none; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+        .game-tab.active { background: var(--primary); color: var(--white); box-shadow: var(--shadow-md); }
+        .game-container { display: none; background: var(--gray-50); border-radius: 1rem; padding: 1.5rem; border: 2px solid var(--gray-300); }
+        .game-container.active { display: block; animation: fadeIn 0.3s; }
+        .game-canvas-container { display: flex; justify-content: center; margin-bottom: 1rem; }
+        canvas { background: var(--white); border-radius: 1rem; box-shadow: var(--shadow-md); max-width: 100%; }
+        .game-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem; flex-wrap: wrap; gap: 0.5rem; }
+        .game-btn { padding: 0.8rem 1.5rem; background: var(--accent); color: var(--white); border: none; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; font-family: inherit; }
+        .game-btn:hover { transform: scale(1.05); }
+
+        .quran-container { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; }
+        .quran-sidebar { background: var(--primary); color: var(--white); border-radius: 1rem; padding: 1.5rem; max-height: 700px; overflow-y: auto; }
+        .quran-sidebar h3 { text-align: center; padding-bottom: 1rem; border-bottom: 2px solid var(--gold); margin-bottom: 1rem; }
+        .surah-list { list-style: none; }
+        .surah-item { padding: 0.8rem; margin-bottom: 0.5rem; background: rgba(255,255,255,0.1); border-radius: 0.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .surah-item:hover { background: rgba(255,255,255,0.2); }
+        .surah-item.active { background: var(--gold); color: var(--primary-dark); }
+        .surah-number { background: rgba(255,255,255,0.3); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .quran-reader { background: var(--gray-50); border-radius: 1rem; padding: 2rem; border: 3px solid var(--gold); }
+        .quran-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--primary); }
+        .quran-header h2 { font-family: 'Amiri', serif; color: var(--primary); }
+        .quran-content { font-family: 'Amiri', serif; font-size: 1.8rem; line-height: 2.5; text-align: center; }
+        .quran-controls { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+        .quran-btn { padding: 0.8rem 1.5rem; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; }
+        .quran-btn-primary { background: var(--primary); color: var(--white); }
+
+        .islamic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .islamic-card { background: var(--white); border-radius: 1rem; padding: 2rem; border: 3px solid var(--primary); transition: all 0.3s; }
+        .islamic-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); border-color: var(--gold); }
+        .islamic-card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gold); }
+        .islamic-icon { width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: var(--white); display: flex; align-items: center; justify-content: center; }
+        .islamic-content { font-family: 'Amiri', serif; font-size: 1.3rem; line-height: 2; text-align: center; }
+        .hadith-text { background: var(--gray-100); padding: 1.5rem; border-radius: 0.5rem; border-right: 4px solid var(--gold); }
+        .hadith-source { margin-top: 1rem; font-size: 0.95rem; color: var(--primary); font-weight: 600; }
+
+        .shahada-section {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            color: var(--white); text-align: center; padding: 3rem 2rem;
+            border-radius: var(--radius-3xl); margin-bottom: 2rem; box-shadow: var(--shadow-xl);
+            border: 3px solid var(--gold); position: relative; overflow: hidden;
+        }
+        .shahada-section::before { content: '☪'; position: absolute; top: -20px; left: -20px; font-size: 200px; opacity: 0.05; }
+        .shahada-arabic { font-family: 'Amiri', serif; font-size: 2.5rem; line-height: 2; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+        .shahada-translation { font-size: 1.1rem; opacity: 0.9; position: relative; z-index: 1; }
+
+        .names-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;
+        }
+        .name-card {
+            background: var(--white); border-radius: 1rem; padding: 1.2rem; text-align: center;
+            border: 2px solid var(--gold); transition: all 0.3s; box-shadow: var(--shadow-sm);
+        }
+        .name-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .name-number { background: var(--primary); color: var(--gold); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-weight: 700; font-size: 0.9rem; }
+        .name-arabic { font-family: 'Amiri', serif; font-size: 1.8rem; color: var(--primary); font-weight: 700; margin-bottom: 0.3rem; }
+        .name-meaning { font-size: 0.85rem; color: var(--gray-600); }
+
+        .cultural-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .cultural-card { background: var(--white); border-radius: 1rem; padding: 2rem; border: 3px solid var(--primary); transition: all 0.3s; }
+        .cultural-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); border-color: var(--gold); }
+        .cultural-card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gold); }
+        .cultural-icon { width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .cultural-title { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+        .cultural-content { font-size: 1rem; line-height: 1.8; color: var(--dark); }
+
+        .main-footer { background: var(--primary); color: var(--white); padding: 2rem 0 1rem; margin-top: 3rem; border-top: 3px solid var(--gold); }
+        .footer-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 2px solid rgba(255,255,255,0.2); }
+        .footer-credit { font-size: 1.1rem; color: var(--gold); font-weight: 700; }
+
+        .chat-toggle { position: fixed; bottom: 30px; left: 30px; width: 70px; height: 70px; border-radius: 50%; background: var(--secondary); color: var(--white); border: none; font-size: 2rem; cursor: pointer; box-shadow: var(--shadow-xl); z-index: 1500; display: flex; align-items: center; justify-content: center; }
+        .chat-window { position: fixed; bottom: 110px; left: 30px; width: 400px; height: 550px; background: var(--white); border-radius: 1.5rem; box-shadow: var(--shadow-2xl); z-index: 1500; display: none; flex-direction: column; overflow: hidden; border: 3px solid var(--primary); }
+        .chat-window.active { display: flex; animation: fadeIn 0.3s; }
+        .chat-header { background: var(--primary); color: var(--white); padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; }
+        .chat-message { max-width: 80%; padding: 0.8rem 1.2rem; border-radius: 1rem; font-size: 0.95rem; }
+        .chat-message.bot { background: var(--white); border: 1px solid var(--gray-300); align-self: flex-start; }
+        .chat-message.user { background: var(--primary); color: var(--white); align-self: flex-end; }
+        .chat-input-area { padding: 1rem; display: flex; gap: 0.5rem; border-top: 1px solid var(--gray-200); }
+        .chat-input { flex: 1; padding: 0.8rem; border: 2px solid var(--gray-200); border-radius: 50px; font-family: inherit; outline: none; }
+        .chat-send { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: var(--white); border: none; cursor: pointer; }
+        .chat-close { background: rgba(255,255,255,0.2); border: none; color: var(--white); width: 35px; height: 35px; border-radius: 50%; cursor: pointer; }
+
+        .celebration-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        .celebration-overlay.active { display: flex; }
+        .celebration-content { text-align: center; color: var(--white); z-index: 10000; padding: 2rem; background: var(--primary); border-radius: 1.5rem; border: 5px solid var(--gold); }
+        .celebration-title { font-size: 3rem; color: var(--gold); animation: pulse 1s infinite; }
+        .celebration-btn { padding: 1rem 2rem; background: var(--gold); color: var(--primary-dark); border: none; border-radius: 50px; font-size: 1.2rem; cursor: pointer; }
+        #confettiCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9998; }
+
+        .chat-page-container { display: grid; gap: 0; }
+        .chat-room { background: var(--white); border-radius: 1.5rem; box-shadow: var(--shadow-lg); overflow: hidden; border: 3px solid var(--primary); max-width: 800px; margin: 0 auto; }
+        .chat-room-header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: var(--white); padding: 1.5rem; text-align: center; font-size: 1.5rem; font-weight: 800; }
+        .chat-room-header.boys-room { background: linear-gradient(135deg, #2196f3 0%, #1565c0 100%); }
+        .chat-room-header.girls-room { background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%); }
+        .chat-room-messages { height: 450px; overflow-y: auto; padding: 1rem; background: var(--gray-50); }
+        .chat-room-input-area { padding: 1rem; display: flex; gap: 0.5rem; border-top: 1px solid var(--gray-200); background: var(--white); }
+        .chat-room-input { flex: 1; padding: 0.8rem 1rem; border: 2px solid var(--gray-300); border-radius: 50px; font-family: inherit; font-size: 1rem; outline: none; transition: all 0.3s; }
+        .chat-room-input:focus { border-color: var(--primary); }
+        .chat-room-send { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: var(--white); border: none; cursor: pointer; font-size: 1.1rem; transition: all 0.3s; }
+        .chat-room-send:hover { transform: scale(1.1); }
+        .room-message { margin-bottom: 0.8rem; padding: 0.8rem 1rem; border-radius: 1rem; max-width: 85%; animation: fadeIn 0.3s; }
+        .room-message.sent { background: var(--primary); color: var(--white); margin-right: auto; border-bottom-right-radius: 0.3rem; }
+        .room-message.received { background: var(--white); border: 1px solid var(--gray-300); margin-left: auto; border-bottom-left-radius: 0.3rem; }
+        .room-message .msg-name { font-size: 0.8rem; font-weight: 700; color: var(--gold); margin-bottom: 0.3rem; }
+        .room-message.sent .msg-name { color: rgba(255,255,255,0.8); }
+        .room-message .msg-text { font-size: 0.95rem; line-height: 1.5; }
+        .room-message .msg-time { font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem; }
+        .chat-username-selector { margin-bottom: 1.5rem; padding: 1.5rem; background: var(--white); border-radius: 1rem; text-align: center; box-shadow: var(--shadow-md); }
+        .chat-username-selector select { padding: 0.8rem 1.5rem; border: 2px solid var(--primary); border-radius: 50px; font-size: 1rem; font-family: inherit; outline: none; cursor: pointer; background: var(--white); }
+
+        @media (max-width: 968px) {
+            .quran-container { grid-template-columns: 1fr; } .students-grid { grid-template-columns: 1fr; } .header-container { flex-direction: column; text-align: center; } .header-info { text-align: center; } .chat-window { width: 90%; left: 5%; bottom: 100px; height: 450px; }
+            .translator-grid { grid-template-columns: 1fr; } .names-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .main-container { padding: 1rem; } .section { padding: 1.5rem; } .section-title { font-size: 1.5rem; } .tasbih-display { width: 220px; height: 220px; } .tasbih-inner-circle { width: 180px; height: 180px; } .tasbih-count { font-size: 3.5rem; } .prayer-times-container { grid-template-columns: repeat(2, 1fr); } .shahada-arabic { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOADER -->
+    <div class="loader" id="loader"><div class="loader-spinner"></div><div class="loader-text">جاري تحميل الموقع...</div></div>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo" onclick="showPage('home')"><div class="logo-icon"><i class="fas fa-graduation-cap"></i></div><div class="logo-text"><h1>الفصل 1/8 - أولى ثانوي</h1><p>مدرسة الإحصاء الثانوية المشتركة</p></div></div>
+            <div class="header-info"><p><i class="fas fa-user-tie"></i> <strong>إدارة:</strong> أ/ فكري هاشم الزيدي</p><p><i class="fas fa-calendar"></i> <strong>العام:</strong> 2025-2026</p><p><i class="fas fa-users"></i> <strong>الطلاب:</strong> 45 طالب</p></div>
+        </div>
+        <div class="search-container"><div class="search-input-wrapper"><i class="fas fa-search search-icon"></i><input type="text" id="studentSearch" class="search-input" placeholder="🔍 ابحث عن اسمك هنا..." oninput="searchStudent(this.value)"></div><div id="searchResults" class="search-results"></div></div>
+    </header>
+
+    <!-- CLASS LEADERS -->
+    <section class="class-leaders-section"><h2 class="class-leaders-title">👑 رواد الفصل 1/8 👑</h2><div class="class-leaders-grid"><div class="leader-card"><div class="leader-icon"><i class="fas fa-user-graduate"></i></div><div class="leader-name">يوسف عز</div><div class="leader-role">الرائد</div><span class="leader-badge">🌟 رائد الفصل</span></div><div class="leader-card"><div class="leader-icon"><i class="fas fa-user-graduate"></i></div><div class="leader-name">هنا مصطفي</div><div class="leader-role">الرائدة</div><span class="leader-badge">🌟 رائدة الفصل</span></div></div></section>
+
+    <!-- NAVIGATION -->
+    <nav class="main-nav"><div class="nav-container"><ul class="nav-menu">
+        <li><a onclick="showPage('home')" class="nav-link active" data-page="home"><i class="fas fa-home"></i> الرئيسية</a></li>
+        <li><a onclick="showPage('students')" class="nav-link" data-page="students"><i class="fas fa-users"></i> الطلاب</a></li>
+        <li><a onclick="showPage('schedule')" class="nav-link" data-page="schedule"><i class="fas fa-calendar-alt"></i> الجدول</a></li>
+        <li><a onclick="showPage('chat-boys')" class="nav-link nav-boys" data-page="chat-boys"><i class="fas fa-male"></i> شات البنين</a></li>
+        <li><a onclick="showPage('chat-girls')" class="nav-link nav-girls" data-page="chat-girls"><i class="fas fa-female"></i> شات البنات</a></li>
+        <li><a onclick="showPage('translator')" class="nav-link" data-page="translator"><i class="fas fa-language"></i> المترجم</a></li>
+        <li><a onclick="showPage('games')" class="nav-link" data-page="games"><i class="fas fa-gamepad"></i> الألعاب</a></li>
+        <li><a onclick="showPage('quran')" class="nav-link" data-page="quran"><i class="fas fa-quran"></i> المصحف</a></li>
+        <li><a onclick="showPage('names')" class="nav-link" data-page="names"><i class="fas fa-star"></i> أسماء الله</a></li>
+        <li><a onclick="showPage('culture')" class="nav-link" data-page="culture"><i class="fas fa-book"></i> ثقافي</a></li>
+        <li><a onclick="showPage('islamic')" class="nav-link" data-page="islamic"><i class="fas fa-book-quran"></i> إسلامي</a></li>
+    </ul></div></nav>
+
+    <!-- PAGE: HOME -->
+    <div id="page-home" class="page-section active">
+        <div class="main-container">
+            <div class="motivation-section"><div style="font-size:2rem;margin-bottom:0.5rem;">✨</div><div class="motivation-text" id="dailyMotivation">جاري تحميل الجملة التحفيزية...</div></div>
+            <section class="wisdom-section"><div class="wisdom-icon"><i class="fas fa-quote-right"></i></div><div class="wisdom-text" id="wisdomText">جاري تحميل حكمة اليوم...</div><div class="wisdom-source" id="wisdomSource"></div></section>
+            <section class="section"><h2 class="section-title"><i class="fas fa-mosque"></i> مواقيت الصلاة</h2><div class="prayer-times-container" id="prayerTimes"><div class="prayer-card"><div class="prayer-name">الفجر</div><div class="prayer-time" id="fajrTime">--:--</div></div><div class="prayer-card"><div class="prayer-name">الشروق</div><div class="prayer-time" id="sunriseTime">--:--</div></div><div class="prayer-card"><div class="prayer-name">الظهر</div><div class="prayer-time" id="dhuhrTime">--:--</div></div><div class="prayer-card"><div class="prayer-name">العصر</div><div class="prayer-time" id="asrTime">--:--</div></div><div class="prayer-card"><div class="prayer-name">المغرب</div><div class="prayer-time" id="maghribTime">--:--</div></div><div class="prayer-card"><div class="prayer-name">العشاء</div><div class="prayer-time" id="ishaTime">--:--</div></div></div></section>
+            <section class="tasbih-wrapper"><div class="tasbih-header"><h2><i class="fas fa-fingerprint"></i> السبحة الإلكترونية</h2><p>سبّح الله واحمد الله وكبّره</p></div><div class="tasbih-main"><div class="tasbih-dhikr-select"><label for="tasbihType">اختر الذكر:</label><select id="tasbihType" onchange="changeTasbihType()"><option value="subhanallah">سبحان الله</option><option value="alhamdulillah">الحمد لله</option><option value="allahuakbar">الله أكبر</option><option value="lailaha">لا إله إلا الله</option><option value="astaghfirullah">أستغفر الله</option><option value="salawat">الصلاة على النبي ﷺ</option></select></div><div class="tasbih-target-display" id="tasbihTargetDisplay">الهدف: 33 مرة</div><div class="tasbih-display"><svg class="tasbih-progress-ring" viewBox="0 0 250 250"><circle class="progress-bg" cx="125" cy="125" r="110"/><circle class="progress-fill" id="tasbihProgressFill" cx="125" cy="125" r="110" stroke-dasharray="691" stroke-dashoffset="691"/></svg><div class="tasbih-outer-ring"></div><div class="tasbih-inner-circle" onclick="incrementTasbih()"><div class="tasbih-count" id="tasbihCount">0</div><div class="tasbih-count-label">اضغط للعد</div></div></div><div class="tasbih-buttons"><button class="tasbih-btn tasbih-btn-reset" onclick="resetTasbih()"><i class="fas fa-redo"></i> تصفير</button></div><div class="tasbih-total">الإجمالي: <span id="tasbihTotal">0</span> تسبيحة</div></div></section>
+            <section class="section"><h2 class="section-title"><i class="fas fa-link"></i> روابط سريعة</h2><div class="quick-links-grid"><div class="quick-link-card" onclick="showPage('students')"><i class="fas fa-users"></i><h3>كشف الطلاب</h3><p>عرض قائمة الطلاب</p></div><div class="quick-link-card" onclick="showPage('schedule')"><i class="fas fa-calendar-alt"></i><h3>جدول الحصص</h3><p>جدول الأسبوع</p></div><div class="quick-link-card" onclick="showPage('quran')"><i class="fas fa-quran"></i><h3>المصحف الشريف</h3><p>قراءة وتحميل</p></div><div class="quick-link-card" onclick="showPage('games')"><i class="fas fa-gamepad"></i><h3>الألعاب</h3><p>العب وتعلم</p></div></div></section>
+        </div>
+    </div>
+
+    <!-- PAGE: STUDENTS -->
+    <div id="page-students" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title"><i class="fas fa-users"></i> كشف الطلاب والطالبات</h2><div class="students-grid"><div class="students-category boys"><div class="category-header"><div class="category-icon"><i class="fas fa-male"></i></div><h3 class="category-title">البنين</h3><span class="category-count" id="boysCount">13 طالب</span></div><ul class="students-list" id="boysList"></ul></div><div class="students-category girls"><div class="category-header"><div class="category-icon"><i class="fas fa-female"></i></div><h3 class="category-title">البنات</h3><span class="category-count" id="girlsCount">30 طالبة</span></div><ul class="students-list" id="girlsList"></ul></div></div></section></div></div>
+
+    <!-- PAGE: SCHEDULE -->
+    <div id="page-schedule" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> جدول الحصص - الفصل 1/8</h2><div class="table-wrapper"><table class="schedule-table"><thead><tr><th>اليوم</th><th>الحصة 1</th><th>الحصة 2</th><th>الحصة 3</th><th>الحصة 4</th><th>الحصة 5</th><th>الحصة 6</th><th>الحصة 7</th><th>الحصة 8</th></tr></thead><tbody><tr><td class="day-cell">الأحد</td><td class="subject-cell subject-philosophy">فلسفة<br><span class="teacher-name">أ/ يسري بكر</span></td><td class="subject-cell subject-philosophy">فلسفة<br><span class="teacher-name">أ/ يسري بكر</span></td><td class="subject-cell subject-history">تاريخ<br><span class="teacher-name">أ/ منال</span></td><td class="subject-cell subject-history">تاريخ<br><span class="teacher-name">أ/ منال</span></td><td class="subject-cell subject-math">رياضة<br><span class="teacher-name">أ/ محمد وحيد</span></td><td class="subject-cell subject-math">رياضة<br><span class="teacher-name">أ/ محمد وحيد</span></td><td class="subject-cell subject-french">فرنسي<br><span class="teacher-name">نزيه</span></td><td class="subject-cell subject-french">فرنسي<br><span class="teacher-name">نزيه</span></td></tr><tr><td class="day-cell">الإثنين</td><td class="subject-cell subject-activity">نشاط تربوي<br><span class="teacher-name">أ/ شيماء</span></td><td class="subject-cell subject-science">علوم متكاملة<br><span class="teacher-name">أ/ طارق مشهور</span></td><td class="subject-cell subject-science">علوم متكاملة<br><span class="teacher-name">أ/ طارق مشهور</span></td><td class="subject-cell subject-english">إنجليزي<br><span class="teacher-name">أ/ أمل</span></td><td class="subject-cell subject-english">إنجليزي<br><span class="teacher-name">أ/ أمل</span></td><td class="subject-cell subject-arabic">عربي<br><span class="teacher-name">أ/ عزيزة</span></td><td class="subject-cell subject-arabic">عربي<br><span class="teacher-name">أ/ عزيزة</span></td><td class="subject-cell empty-cell">-</td></tr><tr><td class="day-cell">الثلاثاء</td><td class="subject-cell subject-programming">البرمجة<br><span class="teacher-name">أ/ مصطفى جاب</span></td><td class="subject-cell subject-programming">البرمجة<br><span class="teacher-name">أ/ مصطفى جاب</span></td><td class="subject-cell subject-games">ألعاب<br><span class="teacher-name">أ/ حسين</span></td><td class="subject-cell subject-history">تاريخ<br><span class="teacher-name">أ/ منال</span></td><td class="subject-cell subject-history">تاريخ<br><span class="teacher-name">أ/ منال</span></td><td class="subject-cell subject-philosophy">فلسفة<br><span class="teacher-name">أ/ يسري بكر</span></td><td class="subject-cell subject-philosophy">فلسفة<br><span class="teacher-name">أ/ يسري بكر</span></td><td class="subject-cell empty-cell">-</td></tr><tr><td class="day-cell">الأربعاء</td><td class="subject-cell subject-arabic">عربي<br><span class="teacher-name">أ/ عزيزة</span></td><td class="subject-cell subject-arabic">عربي<br><span class="teacher-name">أ/ عزيزة</span></td><td class="subject-cell subject-math">رياضة<br><span class="teacher-name">أ/ محمد وحيد</span></td><td class="subject-cell subject-math">رياضة<br><span class="teacher-name">أ/ محمد وحيد</span></td><td class="subject-cell subject-religion">دين<br><span class="teacher-name">أ/ عزيزة</span></td><td class="subject-cell subject-religion">دين<br><span class="teacher-name">أ/ عزيزة</span></td><td class="subject-cell subject-science">علوم متكاملة<br><span class="teacher-name">أ/ طارق مشهور</span></td><td class="subject-cell empty-cell">-</td></tr><tr><td class="day-cell">الخميس</td><td class="subject-cell subject-english">إنجليزي<br><span class="teacher-name">أ/ أمل</span></td><td class="subject-cell subject-english">إنجليزي<br><span class="teacher-name">أ/ أمل</span></td><td class="subject-cell subject-programming">البرمجة<br><span class="teacher-name">أ/ مصطفى جاب</span></td><td class="subject-cell subject-programming">البرمجة<br><span class="teacher-name">أ/ مصطفى جاب</span></td><td class="subject-cell subject-arabic">عربي<br><span class="teacher-name">أ/ عزيزة</span></td><td class="subject-cell subject-science">علوم متكاملة<br><span class="teacher-name">أ/ طارق مشهور</span></td><td class="subject-cell subject-science">علوم متكاملة<br><span class="teacher-name">أ/ طارق مشهور</span></td><td class="subject-cell empty-cell">-</td></tr></tbody></table></div></section></div></div>
+
+    <!-- PAGE: CHAT BOYS -->
+    <div id="page-chat-boys" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title" style="color:#2196f3;border-bottom-color:#2196f3;"><i class="fas fa-male"></i> شات البنين</h2><div class="chat-username-selector"><h3 style="margin-bottom:1rem;color:var(--primary);">👤 اختر اسمك قبل الدردشة:</h3><select id="chatUsernameSelectBoys" onchange="updateChatUser('boys')"><option value="">-- اختر اسمك --</option><option value="مؤمن">مؤمن محمد</option><option value="نبيل">نبيل محمد</option><option value="هادي">هادي ناجح</option><option value="ياسين أحمد">ياسين أحمد</option><option value="ياسين أيمن">ياسين أيمن</option><option value="يوسف أحمد">يوسف أحمد</option><option value="يوسف رمضان">يوسف رمضان</option><option value="يوسف سيد سمير">يوسف سيد سمير</option><option value="يوسف سيد قدرى">يوسف سيد قدرى</option><option value="يوسف عاطف">يوسف عاطف</option><option value="يوسف عز">يوسف عز الدين</option><option value="يوسف محمد">يوسف محمد</option><option value="يوسف محمود">يوسف محمود</option></select></div><div class="chat-page-container"><div class="chat-room"><div class="chat-room-header boys-room"><i class="fas fa-male"></i> شات البنين 💙</div><div class="chat-room-messages" id="boysChatMessages"><div class="room-message received"><div class="msg-name">النظام</div><div class="msg-text">مرحباً بالبنين في شات الفصل 1/8! 💙</div></div></div><div class="chat-room-input-area"><input type="text" id="boysChatInput" class="chat-room-input" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter')sendBoysMessage()"><button class="chat-room-send" onclick="sendBoysMessage()"><i class="fas fa-paper-plane"></i></button></div></div></div></section></div></div>
+
+    <!-- PAGE: CHAT GIRLS -->
+    <div id="page-chat-girls" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title" style="color:#e91e63;border-bottom-color:#e91e63;"><i class="fas fa-female"></i> شات البنات</h2><div class="chat-username-selector"><h3 style="margin-bottom:1rem;color:var(--primary);">👤 اختر اسمك قبل الدردشة:</h3><select id="chatUsernameSelectGirls" onchange="updateChatUser('girls')"><option value="">-- اختر اسمك --</option><option value="نرمين">نرمين عبد الغفار</option><option value="نهلة">نهلة محمود</option><option value="نور تويه">نور تويه</option><option value="نور خالد">نور خالد</option><option value="نورا سعيد">نورا سعيد</option><option value="نورا مسعود">نورا مسعود</option><option value="نوران أسامة">نوران أسامة</option><option value="نوران صادق">نوران صادق</option><option value="نورهان زينهم">نورهان زينهم</option><option value="نورهان محمد">نورهان محمد</option><option value="نورهان محمود">نورهان محمود</option><option value="نورهان هاني">نورهان هاني</option><option value="نيجار">نيجار محمد</option><option value="هاجر رجب">هاجر رجب</option><option value="هاجر عامر">هاجر عامر</option><option value="هاجر ممدوح">هاجر ممدوح</option><option value="هائم">هائم حسام</option><option value="هدى">هدى سمير</option><option value="هدير">هدير سمير</option><option value="هنا سامي">هنا سامي</option><option value="هنا عمرى">هنا عمرى</option><option value="هنا مصطفى">هنا مصطفى</option><option value="هند">هند شوقي</option><option value="وفاء">وفاء إبراهيم</option><option value="ولاء">ولاء سعيد</option><option value="يارا">يارا عادل</option><option value="ياسمين رضى">ياسمين رضى</option><option value="ياسمين صبرى">ياسمين صبرى</option><option value="يوانا">يوانا عزيز</option><option value="يوستينا">يوستينا أيمن</option><option value="هادية">هادية محمد</option><option value="هنا سويلم">هنا سويلم</option></select></div><div class="chat-page-container"><div class="chat-room"><div class="chat-room-header girls-room"><i class="fas fa-female"></i> شات البنات 💗</div><div class="chat-room-messages" id="girlsChatMessages"><div class="room-message received"><div class="msg-name">النظام</div><div class="msg-text">مرحباً بالبنات في شات الفصل 1/8! 💗</div></div></div><div class="chat-room-input-area"><input type="text" id="girlsChatInput" class="chat-room-input" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter')sendGirlsMessage()"><button class="chat-room-send" onclick="sendGirlsMessage()"><i class="fas fa-paper-plane"></i></button></div></div></div></section></div></div>
+
+    <!-- PAGE: TRANSLATOR -->
+    <div id="page-translator" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title"><i class="fas fa-language"></i> المترجم الفوري</h2><div class="translator-grid"><div class="translator-box"><h3 style="margin-bottom:0.5rem;color:var(--primary);">النص الأصلي (عربي)</h3><textarea id="sourceText" placeholder="اكتب النص هنا..."></textarea></div><div class="translator-controls"><h3 style="margin-bottom:0.5rem;color:var(--primary);">اللغة الهدف</h3><select id="targetLang"><option value="en">English (إنجليزي)</option><option value="fr">Français (فرنسي)</option><option value="de">Deutsch (ألماني)</option><option value="es">Español (إسباني)</option><option value="tr">Türkçe (تركي)</option><option value="ur">اردو (أردو)</option><option value="id">Bahasa Indonesia (إندونيسي)</option><option value="ru">Русский (روسي)</option><option value="zh">中文 (صيني)</option><option value="ja">日本語 (ياباني)</option></select><button onclick="translateText()"><i class="fas fa-exchange-alt"></i> ترجمة الآن</button></div></div><div class="translation-result" id="translationResult">ستظهر الترجمة هنا...</div></section></div></div>
+
+    <!-- PAGE: GAMES -->
+    <div id="page-games" class="page-section"><div class="main-container"><section class="section games-hub"><h2 class="section-title"><i class="fas fa-gamepad"></i> مركز الألعاب</h2>
+        <div class="games-tabs">
+            <button class="game-tab active" onclick="switchGame('xo')">❌⭕ إكس أو</button>
+            <button class="game-tab" onclick="switchGame('snake')">🐍 الثعبان</button>
+            <button class="game-tab" onclick="switchGame('football')">⚽ كرة قدم</button>
+            <button class="game-tab" onclick="switchGame('war')">🎮 حرب الدبابات</button>
+            <button class="game-tab" onclick="switchGame('flappy')">🐦 فلابي بيرد</button>
+            <button class="game-tab" onclick="switchGame('memory')">🧠 الذاكرة</button>
+            <button class="game-tab" onclick="switchGame('math')">🔢 رياضيات</button>
+            <button class="game-tab" onclick="switchGame('pingpong')">🏓 بينج بونج</button>
+        </div>
+        <div id="game-xo" class="game-container active"><div class="game-info"><span>الدور: <span id="xoTurn">X</span></span><button class="game-btn" onclick="resetXO()">إعادة اللعب</button></div><div id="xoBoard" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:300px;margin:0 auto;"></div></div>
+        <div id="game-snake" class="game-container"><div class="game-info"><span>النقاط: <span id="snakeScore">0</span></span><button class="game-btn" onclick="startSnake()">ابدأ اللعب</button></div><div class="game-canvas-container"><canvas id="snakeCanvas" width="400" height="400"></canvas></div><p style="text-align:center;color:var(--gray-600);">استخدم الأسهم للتحكم</p></div>
+        <div id="game-football" class="game-container"><div class="game-info"><span>الأهداف: <span id="footballScore">0</span> / 5</span><button class="game-btn" onclick="startFootball()">ابدأ اللعب</button></div><div class="game-canvas-container"><canvas id="footballCanvas" width="400" height="300"></canvas></div><p style="text-align:center;color:var(--gray-600);">اضغط على الكرة لركلها نحو المرمى</p></div>
+        <div id="game-war" class="game-container"><div class="game-info"><span>النقاط: <span id="warScore">0</span> | الأرواح: <span id="warLives">3</span></span><button class="game-btn" onclick="startWar()">ابدأ اللعب</button></div><div class="game-canvas-container"><canvas id="warCanvas" width="400" height="400"></canvas></div><p style="text-align:center;color:var(--gray-600);">WASD للتحرك | الماوس للإطلاق</p></div>
+        <div id="game-flappy" class="game-container"><div class="game-info"><span>النقاط: <span id="flappyScore">0</span></span><button class="game-btn" onclick="startFlappy()">ابدأ اللعب</button></div><div class="game-canvas-container"><canvas id="flappyCanvas" width="400" height="500"></canvas></div><p style="text-align:center;color:var(--gray-600);">اضغط Space أو انقر للطيران</p></div>
+        <div id="game-memory" class="game-container"><div class="game-info"><span>المحاولات: <span id="memoryMoves">0</span></span><button class="game-btn" onclick="startMemory()">ابدأ اللعب</button></div><div id="memoryBoard" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:0 auto;"></div></div>
+        <div id="game-math" class="game-container"><div class="game-info"><span>النقاط: <span id="mathScore">0</span> | الزمن: <span id="mathTime">60</span>ث</span><button class="game-btn" onclick="startMath()">ابدأ اللعب</button></div><div style="text-align:center;"><div id="mathQuestion" style="font-size:2.5rem;font-weight:800;margin:2rem 0;color:var(--primary);"></div><input type="number" id="mathAnswer" style="padding:1rem;font-size:1.5rem;width:200px;text-align:center;border:2px solid var(--primary);border-radius:1rem;font-family:inherit;outline:none;" placeholder="الإجابة..."><br><button class="game-btn" onclick="checkMathAnswer()" style="margin-top:1rem;">تحقق</button></div></div>
+        <div id="game-pingpong" class="game-container"><div class="game-info"><span>أنت: <span id="ppPlayer">0</span> | الكمبيوتر: <span id="ppCPU">0</span></span><button class="game-btn" onclick="startPingPong()">ابدأ اللعب</button></div><div class="game-canvas-container"><canvas id="pingpongCanvas" width="400" height="300"></canvas></div><p style="text-align:center;color:var(--gray-600);">حرك الماوس أو المسم لأعلى/أسفل</p></div>
+    </section></div></div>
+
+    <!-- PAGE: QURAN -->
+    <div id="page-quran" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title"><i class="fas fa-quran"></i> القرآن الكريم</h2><div class="quran-container"><div class="quran-sidebar"><h3><i class="fas fa-list"></i> سور القرآن الكريم</h3><ul class="surah-list" id="surahList"></ul></div><div class="quran-reader"><div class="quran-header"><h2 id="currentSurahName">اختر سورة للقراءة</h2><p id="currentSurahInfo"></p></div><div class="quran-content" id="quranContent"><p style="color:#999;">اختر سورة من القائمة</p></div><div class="quran-controls"><button class="quran-btn quran-btn-primary" onclick="downloadQuran()"><i class="fas fa-download"></i> تحميل PDF</button></div></div></div></section></div></div>
+
+    <!-- PAGE: NAMES OF ALLAH -->
+    <div id="page-names" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title"><i class="fas fa-star"></i> أسماء الله الحسنى (99 اسم)</h2><div id="namesGrid" class="names-grid"></div></section></div></div>
+
+    <!-- PAGE: CULTURE -->
+    <div id="page-culture" class="page-section"><div class="main-container"><section class="section"><h2 class="section-title"><i class="fas fa-book"></i> معلومات ثقافية يومية</h2><div class="cultural-grid" id="culturalGrid"></div></section></div></div>
+
+    <!-- PAGE: ISLAMIC -->
+    <div id="page-islamic" class="page-section"><div class="main-container">
+        <section class="shahada-section">
+            <div style="font-size:3rem;margin-bottom:1rem;">☪</div>
+            <h2 style="font-size:2rem;margin-bottom:1.5rem;color:var(--gold);">الشهادة</h2>
+            <div class="shahada-arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ</div>
+            <div class="shahada-translation">أشهد أن لا إله إلا الله وأشهد أن محمداً رسول الله</div>
+            <div style="margin-top:1.5rem;font-size:1rem;opacity:0.8;">هي الركن الأول من أركان الإسلام، وبها يدخل الإنسان في الإسلام</div>
+        </section>
+        <section class="section"><h2 class="section-title"><i class="fas fa-book-quran"></i> القسم الإسلامي</h2><div class="islamic-grid"><div class="islamic-card"><div class="islamic-card-header"><div class="islamic-icon"><i class="fas fa-quote-right"></i></div><h3>حديث اليوم</h3></div><div class="islamic-content"><div class="hadith-text" id="dailyHadith">جاري التحميل...</div><div class="hadith-source" id="hadithSource"></div></div></div><div class="islamic-card"><div class="islamic-card-header"><div class="islamic-icon"><i class="fas fa-hands-praying"></i></div><h3>دعاء اليوم</h3></div><div class="islamic-content" id="dailyDua">جاري التحميل...</div></div><div class="islamic-card"><div class="islamic-card-header"><div class="islamic-icon"><i class="fas fa-star"></i></div><h3>اسم من أسماء الله</h3></div><div class="islamic-content" id="dailyName">جاري التحميل...</div></div><div class="islamic-card"><div class="islamic-card-header"><div class="islamic-icon"><i class="fas fa-quran"></i></div><h3>آية اليوم</h3></div><div class="islamic-content" id="dailyVerse">جاري التحميل...</div></div><div class="islamic-card"><div class="islamic-card-header"><div class="islamic-icon"><i class="fas fa-info-circle"></i></div><h3>معلومة دينية</h3></div><div class="islamic-content" id="dailyReligiousInfo">جاري التحميل...</div></div></div></section>
+    </div></div>
+
+    <!-- FOOTER -->
+    <footer class="main-footer"><div class="footer-container"><div class="footer-bottom"><div class="footer-credit"><i class="fas fa-code"></i> إبداع الطالب يوسف عز</div><div class="footer-copy">جميع الحقوق محفوظة © 2025-2026</div></div></div></footer>
+
+    <!-- CHAT WIDGET (AI) -->
+    <button id="chatToggle" class="chat-toggle" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
+    <div id="chatWindow" class="chat-window"><div class="chat-header"><div><div style="font-weight:700;">🤖 المساعد الذكي</div><div style="font-size:0.85rem;opacity:0.9;">متصل الآن</div></div><button class="chat-close" onclick="toggleChat()"><i class="fas fa-times"></i></button></div><div class="chat-messages" id="chatMessages"><div class="chat-message bot">أهلاً بك! 👋 أنا مساعدك الذكي للفصل 1/8.</div></div><div class="chat-input-area"><input type="text" id="chatInput" class="chat-input" placeholder="اكتب رسالتك..." onkeypress="if(event.key==='Enter')sendMessage()"><button class="chat-send" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button></div></div>
+
+    <!-- CELEBRATION -->
+    <div class="celebration-overlay" id="celebrationOverlay"><canvas id="confettiCanvas"></canvas><div class="celebration-content"><div class="celebration-title">🎉 مبروك يا يوسف عز! 🎉</div><p style="font-size:1.3rem;margin:1rem 0;">أنت مبدع الموقع! 🌟</p><button class="celebration-btn" onclick="closeCelebration()">شكراً! 🚀</button></div></div>
+
+    <script>
+    const boysData = ["مؤمن محمد عبد الكريم خلفي ابراهيم","نبيل محمد نبيل عبد الموجود عبد المطلب","هادي ناجح بسيوني محمود بسيوني","ياسين احمد بشير علي ابراهيم","ياسين ايمن شعبان محمد ربيع","يوسف احمد قرني عبد النبي سيد","يوسف رمضان شعبان كامل عكاشة","يوسف سيد سمير حسن ابراهيم","يوسف سيد قدرى سيد مراد","يوسف عاطف سليمان حسن محمد","يوسف عز الدين فضل جمعة خليل","يوسف محمد قرني عربي يوسف","يوسف محمود محمد محمود محمد"];
+    const girlsData = ["نرمين عبد الغفار عبد الكريم فيهم سليمان","نهلة محمود صلاح محمود محمد","نور تويه انيب منصور محمد","نور خالد جابر شعيب داود","نورا سعيد محمد سالم محمد","نورا مسعود محمد المنشاوي سلطان","نوران اسامة رضا عبد الحميد","نوران صادق ابراهيم صادق","نورهان زينهم رجب محمد محمد","نورهان محمد محمد عطيه خلاف","نورهان محمود سيد عقيل محمد","نورهان هاني اسماعيل ابراهيم","نيجار محمد رمضان محمد المنير","هاجر رجب قرني عبد عبد النبي","هاجر عامر عبد الرحمن امين حسن","هاجر ممدوح محمد راشد عثمان","هائم حسام فوزي حامد","هدى سمير سعد حامد","هدير سمير عبد القادر محمود عبد اللطيف","هنا سامي رمضان محمد مصطفى","هنا عمرى مسعد سعيد","هنا مصطفى محمد شعراوى","هند شوقي يونس حسن","وفاء ابراهيم رجب محمد اسماعيل","ولاء سعيد احمد محمد","يارا عادل زكريا محمد عبد الباقي","ياسمين رضى خيرى احمد عبد الجليل","ياسمين صبرى عويس امام عباس","يوانا عزيز اسحاق توفيق زكى","يوستينا ايمن نجيب فرج الله ابوسعد","هادية محمد علي سليمان محمد","هنا سويلم رجب حسان"];
+    const wisdomData = [{text:"من تعلم علمًا مما يبتغى به وجه الله لا يتعلمه إلا ليصيب به عرضًا من الدنيا لم يجد عرف الجنة يوم القيامة",source:"حديث شريف"},{text:"إنما الأعمال بالنيات وإنما لكل امرئ ما نوى",source:"حديث شريف"},{text:"اطلبوا العلم من المهد إلى اللحد",source:"حديث شريف"}];
+    const hadithData = [{text:"من سلك طريقًا يلتمس فيه علمًا سهل الله له به طريقًا إلى الجنة",source:"رواه مسلم"},{text:"إنما الأعمال بالنيات وإنما لكل امرئ ما نوى",source:"متفق عليه"}];
+    const duaData = ["رب زدني علمًا","اللهم انفعني بما علمتني وعلمني ما ينفعني","اللهم إني أسألك علمًا نافعًا ورزقًا طيبًا"];
+    const namesOfAllah = [{name:"الرحمن",meaning:"ذو الرحمة الواسعة"},{name:"العليم",meaning:"العالم بكل شيء"}];
+    const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الإنفطار","المطففين","الإنشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+    const motivationalQuotes = ["النجاح ليس نهاية المطاف، بل هو بداية رحلة جديدة.","ثق بنفسك، فأنت أقوى مما تتخيل.","كل يوم هو فرصة جديدة لتكون أفضل.","العلم نور والجهل ظلام، فاسعَ للنور.","لا تستسلم، فالمثابرة مفتاح النجاح.","حلمك ليس بعيداً إذا بدأت الخطوة الأولى.","اصنع مستقبلك بيديك، ولا تنتظر الفرص.","الوقت كالسيف، إن لم تقطعه قطعك.","اجعل كل يوم أفضل من سابقه.","الإيمان بالله والتوكل عليه هما سلاحك الأقوى.","التعليم هو السلاح الأقوى لتغيير العالم.","التميز ليس فعلاً، بل عادة يومية."];
+    const religiousInfoData = ["الصلاة عماد الدين، من أقامها فقد أقام الدين.","الصدقة تطفئ غضب الرب وتدفع ميتة السوء.","بر الوالدين من أحب الأعمال إلى الله.","حافظ على أذكار الصباح والمساء فهي حصنك المنيع.","الاستغفار يفتح الأغلاق ويزيل الهموم.","صلة الرحم تزيد في العمر والرزق.","حسن الخلق أثقل شيء في ميزان المؤمن.","العلم يرفع بيوتاً لا عماد لها والجهل يهدم بيوت العز والكرم."];
+    const dailyDuasData = ["اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والبخل والجبن، وضلع الدين، وغلبة الرجال.","ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة وقنا عذاب النار.","اللهم أصلح لي ديني الذي هو عصمة أمري، وأصلح لي دنياي التي فيها معاشي، وأصلح لي آخرتي التي فيها معادي.","اللهم اغفر لي ذنبي كله، دقه وجله، وأوله وآخره، وعلانيته وسره.","يا حي يا قيوم برحمتك أستغيث، أصلح لي شأني كله ولا تكلني إلى نفسي طرفة عين."];
+
+    // 99 Names of Allah
+    const allahNames99 = [
+        {n:1,name:"الرحمن",m:"ذو الرحمة الواسعة التي وسعت كل شيء"},{n:2,name:"الرحيم",m:"المعطي من الثواب أضعاف العمل"},{n:3,name:"الملك",m:"المالك لكل شيء في الملكوت"},{n:4,name:"القدوس",m:"المنزه عن كل نقص وعيب"},{n:5,name:"السلام",m:"الذي سلم من كل آفة وعيب"},{n:6,name:"المؤمن",m:"الذي يؤمن عباده من الخوف يوم القيامة"},{n:7,name:"المهيمن",m:"الرقب على كل شيء"},{n:8,name:"العزيز",m:"الذي لا يُغلب"},{n:9,name:"الجبار",m:"الذي جبر خلقه على ما أراد"},{n:10,name:"المتكبر",m:"الذي تكبر عن كل نقص"},{n:11,name:"الخالق",m:"الذي أوجد الأشياء من العدم"},{n:12,name:"البارئ",m:"الذي برأ الخلق لا على مثال سابق"},{n:13,name:"المصور",m:"الذي صور جميع المخلوقات"},{n:14,name:"الغفار",m:"كثير المغفرة والستر"},{n:15,name:"القهار",m:"الذي قهر جميع الخلائق"},{n:16,name:"الوهاب",m:"كثير العطاء بلا مقابل"},{n:17,name:"الرزاق",m:"الذي رزق جميع المخلوقات"},{n:18,name:"الفتاح",m:"الذي يفتح أبواب الرحمة والرزق"},{n:19,name:"العليم",m:"العالم بكل شيء ظاهراً وباطناً"},{n:20,name:"القابض",m:"الذي يقبض الرزق والأرواح"},{n:21,name:"الباسط",m:"الذي يبسط الرزق والرحمة"},{n:22,name:"الخافض",m:"الذي يخفض من يشاء"},{n:23,name:"الرافع",m:"الذي يرفع من يشاء"},{n:24,name:"المعز",m:"الذي يعز من يشاء"},{n:25,name:"المذل",m:"الذي يذل من يشاء"},{n:26,name:"السميع",m:"الذي يسمع كل شيء"},{n:27,name:"البصير",m:"الذي يبصر كل شيء"},{n:28,name:"الحكم",m:"الحاكم بين عباده بالعدل"},{n:29,name:"العدل",m:"الذي لا يجور في حكمه"},{n:30,name:"اللطيف",m:"الذي يلطف بعباده"},{n:31,name:"الخبير",m:"العالم ببواطن الأمور"},{n:32,name:"الحليم",m:"الذي لا يعجل بالعقوبة"},{n:33,name:"العظيم",m:"الذي عظم عن كل وصف"},{n:34,name:"الغفور",m:"كثير المغفرة والرحمة"},{n:35,name:"الشكور",m:"الذي يشكر اليسير من العمل"},{n:36,name:"العلي",m:"العلي الشأن والقدر"},{n:37,name:"الكبير",m:"الذي عظمت صفاته"},{n:38,name:"الحفيظ",m:"الحافظ لكل شيء"},{n:39,name:"المقيت",m:"الذي يوصل أقوات العباد"},{n:40,name:"الحسيب",m:"الكافي لعباده"},{n:41,name:"الجليل",m:"عظيم القدر والجلال"},{n:42,name:"الكريم",m:"كثير الخير والعطاء"},{n:43,name:"الرقيب",m:"المطلع على كل شيء"},{n:44,name:"المجيب",m:"الذي يجيب دعوة الداعي"},{n:45,name:"الواسع",m:"الذي وسع رزقه جميع الخلائق"},{n:46,name:"الحكيم",m:"الذي أحكم كل شيء"},{n:47,name:"الودود",m:"كثير المحبة لعباده"},{n:48,name:"المجيد",m:"عظيم المجد والكرم"},{n:49,name:"الباعث",m:"الذي يبعث الموتى يوم القيامة"},{n:50,name:"الشهيد",m:"الذي لا يغيب عنه شيء"},{n:51,name:"الحق",m:"الذي ثبت وجوده"},{n:52,name:"الوكيل",m:"الكافي المتكفل بأمور عباده"},{n:53,name:"القوي",m:"الذي له القوة الكاملة"},{n:54,name:"المتين",m:"الشديد الذي لا يحتاج إلى مدد"},{n:55,name:"الولي",m:"الذي يتولى أمور المؤمنين"},{n:56,name:"الحميد",m:"المحمود في جميع أفعاله"},{n:57,name:"المحصي",m:"الذي أحصى كل شيء"},{n:58,name:"المبدئ",m:"الذي بدأ الخلق"},{n:59,name:"المعيد",m:"الذي يعيد الخلق بعد الموت"},{n:60,name:"المحيي",m:"الذي يحيي الموتى"},{n:61,name:"المميت",m:"الذي يميت الأحياء"},{n:62,name:"الحي",m:"الذي له الحياة الأبدية"},{n:63,name:"القيوم",m:"القائم بنفسه المقيم لغيره"},{n:64,name:"الواجد",m:"الذي لا يعوزه شيء"},{n:65,name:"الماجد",m:"كثير المجد والكرامة"},{n:66,name:"الواحد",m:"الذي لا شريك له"},{n:67,name:"الأحد",m:"الذي لا ينقسم"},{n:68,name:"الصمد",m:"المقصد في الحوائج"},{n:69,name:"القادر",m:"الذي يقدر على كل شيء"},{n:70,name:"المقتدر",m:"الشديد القدرة"},{n:71,name:"المقدم",m:"الذي يقدم من يشاء"},{n:72,name:"المؤخر",m:"الذي يؤخر من يشاء"},{n:73,name:"الأول",m:"الذي ليس قبله شيء"},{n:74,name:"الآخر",m:"الذي ليس بعده شيء"},{n:75,name:"الظاهر",m:"الذي ظهر فوق كل شيء"},{n:76,name:"الباطن",m:"الذي بطن عن الأبصار"},{n:77,name:"الوالي",m:"المالك للأمر كله"},{n:78,name:"المتعالي",m:"المتنزه عن صفات المخلوقين"},{n:79,name:"البر",m:"كثير الإحسان"},{n:80,name:"التواب",m:"يقبل توبة عباده"},{n:81,name:"المنتقم",m:"الذي ينتقم من العصاة"},{n:82,name:"العفو",m:"كثير العفو والصفح"},{n:83,name:"الرؤوف",m:"كثير الرأفة بعباده"},{n:84,name:"مالك الملك",m:"مالك ملك الدنيا والآخرة"},{n:85,name:"ذو الجلال والإكرام",m:"الذي له الجلال والعظمة"},{n:86,name:"المقسط",m:"العادل في حكمه"},{n:87,name:"الجامع",m:"الذي يجمع الخلائق يوم القيامة"},{n:88,name:"الغني",m:"الذي لا يحتاج إلى أحد"},{n:89,name:"المغني",m:"الذي يغني من يشاء"},{n:90,name:"المانع",m:"الذي يمنع الضر عن عباده"},{n:91,name:"الضار",m:"الذي يضر من يشاء لحكمة"},{n:92,name:"النافع",m:"الذي ينفع من يشاء"},{n:93,name:"النور",m:"الذي أنار الكون بنوره"},{n:94,name:"الهادي",m:"الذي يهدي من يشاء"},{n:95,name:"البديع",m:"الذي أبدع الخلق لا على مثال"},{n:96,name:"الباقي",m:"الذي لا يفنى"},{n:97,name:"الوارث",m:"الذي يرث الخلائق"},{n:98,name:"الرشيد",m:"الذي أرشد عباده"},{n:99,name:"الصبور",m:"الذي لا يعجل بالعقوبة"}
+    ];
+
+    // Cultural Info
+    const culturalInfo = [
+        {icon:"fa-globe",title:"أطول نهر في العالم",text:"نهر النيل هو أطول نهر في العالم بطول 6,650 كم، ويمر عبر 11 دولة أفريقية."},
+        {icon:"fa-landmark",title:"الهرم الأكبر",text:"هرم خوفو في الجيزة هو العجيبة الوحيدة الباقية من عجائب الدنيا السبع القديمة، بُني حوالي 2560 ق.م."},
+        {icon:"fa-flask",title:"اختراع الورق",text:"اخترع الصينيون الورق في القرن الثاني الميلادي، وانتقل إلى العالم الإسلامي عبر سمرقند."},
+        {icon:"fa-atom",title:"الفضاء",text:"الشمس هي نجم متوسط الحجم، وتبعد عن الأرض حوالي 150 مليون كيلومتر."},
+        {icon:"fa-dna",title:"الجسم البشري",text:"يحتوي جسم الإنسان على حوالي 206 عظمة و 600 عضلة و 100 تريليون خلية."},
+        {icon:"fa-water",title:"المحيطات",text:"المحيطات تغطي حوالي 71% من سطح الأرض، وأعمق نقطة هي خندق ماريانا بعمق 11,034 متر."},
+        {icon:"fa-mountain",title:"أعلى قمة",text:"قمة إيفرست في جبال الهيمالايا هي أعلى نقطة على سطح الأرض بارتفاع 8,848 متر."},
+        {icon:"fa-brain",title:"الدماغ البشري",text:"يحتوي الدماغ البشري على حوالي 86 مليار خلية عصبية ويعمل بطاقة 20 واط فقط."},
+        {icon:"fa-book",title:"أول مكتبة",text:"مكتبة الإسكندرية كانت واحدة من أكبر مكتبات العالم القديم، أسست في القرن الثالث قبل الميلاد."},
+        {icon:"fa-plane",title:"أول طائرة",text:"الأخوان رايت قاما بأول رحلة طيران ناجحة في 17 ديسمبر 1903 في أمريكا."},
+        {icon:"fa-heartbeat",title:"القلب",text:"يدق القلب البشري حوالي 100,000 مرة يومياً ويضخ حوالي 7,500 لتر من الدم."},
+        {icon:"fa-tree",title:"أشجار العالم",text:"يوجد حوالي 3 تريليون شجرة على كوكب الأرض، وثلثها في روسيا وكندا والبرازيل."},
+        {icon:"fa-trophy",title:"كأس العالم",text:"أول كأس عالم لكرة القدم أقيمت في الأوروغواي عام 1930 وفازت بها البرازيل 5 مرات."},
+        {icon:"fa-music",title:"الموسيقى",text:"الموسيقى العربية القديمة تعتمد على المقامات، وأشهرها مقام البيات والحجاز والراست."},
+        {icon:"fa-rocket",title:"الفضاء",text:"أول إنسان وصل للقمر هو نيل أرمسترونغ في 20 يوليو 1969 ضمن مهمة أبولو 11."},
+        {icon:"fa-paint-brush",title:"الفن",text:"لوحة الموناليزا للرسام ليوناردو دافنشي هي أشهر لوحة فنية في العالم، موجودة في متحف اللوفر."}
+    ];
+
+    let tasbihCount = 0, tasbihTotal = 0, currentChatUserBoys = '', currentChatUserGirls = '';
+    let xoBoard=Array(9).fill(''), xoTurn='X', xoActive=true;
+    let snakeGame, warAnim, warKeys={}, flappyAnim, mathInterval, ppAnim;
+    let currentQuizQuestion = 0, quizScore = 0, quizQuestions = [], quizAnswered = false;
+
+    // PAGE NAVIGATION
+    function showPage(name){
+        document.querySelectorAll('.page-section').forEach(p=>p.classList.remove('active'));
+        document.getElementById('page-'+name).classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l=>l.classList.toggle('active',l.getAttribute('data-page')===name));
+        window.scrollTo(0,0);
+        if(name==='students') loadStudents();
+        if(name==='quran') loadSurahList();
+        if(name==='islamic') loadIslamicDaily();
+        if(name==='names') loadNames();
+        if(name==='culture') loadCulture();
+    }
+
+    // INIT
+    window.addEventListener('load',()=>{
+        setTimeout(()=>document.getElementById('loader').classList.add('hidden'),1500);
+        document.getElementById('dailyMotivation').textContent=motivationalQuotes[new Date().getDate()%motivationalQuotes.length];
+        loadWisdom(); getPrayerTimes(); initXO();
+    });
+
+    function loadWisdom(){const w=wisdomData[new Date().getDate()%wisdomData.length];document.getElementById('wisdomText').textContent=w.text;document.getElementById('wisdomSource').textContent=w.source;}
+    async function getPrayerTimes(){try{const d=new Date();const res=await fetch(`https://api.aladhan.com/v1/timingsByCity/${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}?city=Cairo&country=Egypt&method=5`);const data=await res.json();if(data.code===200){const t=data.data.timings;['fajr','sunrise','dhuhr','asr','maghrib','isha'].forEach(p=>document.getElementById(p+'Time').textContent=t[p.charAt(0).toUpperCase()+p.slice(1)]);}}catch(e){['fajr','dhuhr','asr','maghrib','isha'].forEach(p=>document.getElementById(p+'Time').textContent=p==='fajr'?'04:30':p==='dhuhr'?'12:00':p==='asr'?'15:15':p==='maghrib'?'18:00':'19:30');}}
+
+    // TASBIH
+    function getTasbihTarget(){const t=document.getElementById('tasbihType').value;return{subhanallah:33,alhamdulillah:33,allahuakbar:33,lailaha:100,astaghfirullah:100,salawat:100}[t]||33;}
+    function updateTasbihProgress(){const target=getTasbihTarget();const progress=Math.min(tasbihCount/target,1);document.getElementById('tasbihProgressFill').style.strokeDashoffset=691-(progress*691);}
+    function incrementTasbih(){tasbihCount++;tasbihTotal++;document.getElementById('tasbihCount').textContent=tasbihCount;document.getElementById('tasbihTotal').textContent=tasbihTotal;updateTasbihProgress();if(navigator.vibrate)navigator.vibrate(50);if(tasbihCount===getTasbihTarget()){showNotification(`🎉 مبروك! أتممت ${getTasbihTarget()} تسبيحة`);if(navigator.vibrate)navigator.vibrate([200,100,200]);}}
+    function resetTasbih(){if(confirm('تصفير العداد؟')){tasbihCount=0;document.getElementById('tasbihCount').textContent='0';updateTasbihProgress();}}
+    function changeTasbihType(){document.getElementById('tasbihTargetDisplay').textContent=`الهدف: ${getTasbihTarget()} مرة`;tasbihCount=0;document.getElementById('tasbihCount').textContent='0';updateTasbihProgress();}
+
+    // STUDENTS & SEARCH
+    function loadStudents(){const bl=document.getElementById('boysList'),gl=document.getElementById('girlsList');if(!bl||!gl)return;bl.innerHTML='';gl.innerHTML='';boysData.forEach((s,i)=>bl.innerHTML+=`<li class="student-item"><span class="student-number">${i+1}</span><span class="student-name">${s}</span></li>`);girlsData.forEach((s,i)=>gl.innerHTML+=`<li class="student-item"><span class="student-number">${i+1}</span><span class="student-name">${s}</span></li>`);}
+    function searchStudent(query){const rd=document.getElementById('searchResults');if(!query.trim()){rd.classList.remove('active');rd.innerHTML='';return;}const q=query.toLowerCase();let matches=[];boysData.forEach((n,i)=>{if(n.toLowerCase().includes(q))matches.push({name:n,type:'بنين',num:i+1});});girlsData.forEach((n,i)=>{if(n.toLowerCase().includes(q))matches.push({name:n,type:'بنات',num:i+1});});rd.innerHTML=matches.length===0?'<div style="padding:1.5rem;text-align:center;color:#666;">لا نتائج</div>':matches.map(m=>`<div class="search-result-item" onclick="goToStudent('${m.type}',${m.num})"><span>${m.name}</span><span class="result-type">${m.type} ${m.num}</span></div>`).join('');rd.classList.add('active');if(query.replace(/\s/g,'').toLowerCase().includes('يوسفعز'))triggerCelebration();}
+    function goToStudent(type,num){document.getElementById('searchResults').classList.remove('active');showPage('students');setTimeout(()=>{const id=type==='بنين'?'boysList':'girlsList';const items=document.getElementById(id).children;if(items[num-1]){items[num-1].style.background='linear-gradient(135deg,#ffd700,#ff8f00)';items[num-1].scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>items[num-1].style.background='',2000);}},500);}
+
+    // CHAT
+    function updateChatUser(type){if(type==='boys')currentChatUserBoys=document.getElementById('chatUsernameSelectBoys').value;else currentChatUserGirls=document.getElementById('chatUsernameSelectGirls').value;}
+    function getTimestamp(){const n=new Date();return n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');}
+    function sendBoysMessage(){if(!currentChatUserBoys){alert('اختر اسمك أولاً!');return;}const inp=document.getElementById('boysChatInput'),msg=inp.value.trim();if(!msg)return;const c=document.getElementById('boysChatMessages');c.innerHTML+=`<div class="room-message sent"><div class="msg-name">${currentChatUserBoys}</div><div class="msg-text">${msg}</div><div class="msg-time">${getTimestamp()}</div></div>`;c.scrollTop=c.scrollHeight;inp.value='';setTimeout(()=>{const r=document.createElement('div');r.className='room-message received';r.innerHTML=`<div class="msg-name">${boysData[Math.floor(Math.random()*boysData.length)].split(' ')[0]}</div><div class="msg-text">${['أحسنت!👍','تمام💙','صح عليك','ممتاز!'][Math.floor(Math.random()*4)]}</div><div class="msg-time">${getTimestamp()}</div>`;c.appendChild(r);c.scrollTop=c.scrollHeight;},1000+Math.random()*2000);}
+    function sendGirlsMessage(){if(!currentChatUserGirls){alert('اختر اسمك أولاً!');return;}const inp=document.getElementById('girlsChatInput'),msg=inp.value.trim();if(!msg)return;const c=document.getElementById('girlsChatMessages');c.innerHTML+=`<div class="room-message sent"><div class="msg-name">${currentChatUserGirls}</div><div class="msg-text">${msg}</div><div class="msg-time">${getTimestamp()}</div></div>`;c.scrollTop=c.scrollHeight;inp.value='';setTimeout(()=>{const r=document.createElement('div');r.className='room-message received';r.innerHTML=`<div class="msg-name">${girlsData[Math.floor(Math.random()*girlsData.length)].split(' ')[0]}</div><div class="msg-text">${['أحسنت!👍','تمام💗','صح عليك','ممتاز!'][Math.floor(Math.random()*4)]}</div><div class="msg-time">${getTimestamp()}</div>`;c.appendChild(r);c.scrollTop=c.scrollHeight;},1000+Math.random()*2000);}
+
+    // TRANSLATOR
+    async function translateText(){const t=document.getElementById('sourceText').value,l=document.getElementById('targetLang').value,r=document.getElementById('translationResult');if(!t){r.textContent='أدخل نصاً للترجمة';return;}r.textContent='جاري الترجمة...';try{const res=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(t)}&langpair=ar|${l}`);const d=await res.json();r.textContent=d.responseData.translatedText||'خطأ في الترجمة';}catch(e){r.textContent='خطأ في الاتصال';}}
+
+    // GAMES SWITCH
+    function switchGame(id){document.querySelectorAll('.game-tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.game-container').forEach(c=>c.classList.remove('active'));document.querySelector(`.game-tab[onclick="switchGame('${id}')"]`).classList.add('active');document.getElementById('game-'+id).classList.add('active');}
+
+    // XO
+    function initXO(){const b=document.getElementById('xoBoard');b.innerHTML='';xoBoard.fill('');xoTurn='X';xoActive=true;document.getElementById('xoTurn').textContent='X';for(let i=0;i<9;i++){const c=document.createElement('div');c.style.cssText='height:90px;background:white;border:2px solid var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:bold;cursor:pointer;transition:0.3s;';c.onclick=()=>playXO(i,c);b.appendChild(c);}}
+    function playXO(i,el){if(!xoActive||xoBoard[i])return;xoBoard[i]=xoTurn;el.textContent=xoTurn;el.style.color=xoTurn==='X'?'#2196f3':'#f44336';if(checkXOWin()){xoActive=false;showNotification(`فاز اللاعب ${xoTurn}! 🎉`);return;}if(!xoBoard.includes('')){xoActive=false;showNotification('تعادل! 🤝');return;}xoTurn=xoTurn==='X'?'O':'X';document.getElementById('xoTurn').textContent=xoTurn;}
+    function checkXOWin(){const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];return w.some(c=>c.every(i=>xoBoard[i]&&xoBoard[i]===xoBoard[c[0]]));}
+    function resetXO(){initXO();}
+
+    // SNAKE
+    function startSnake(){clearInterval(snakeGame);const c=document.getElementById('snakeCanvas'),ctx=c.getContext('2d');let s=[{x:10,y:10}],f={x:15,y:15},d={x:1,y:0},sc=0;document.getElementById('snakeScore').textContent=0;function loop(){ctx.fillStyle='#f5f5f5';ctx.fillRect(0,0,c.width,c.height);s.unshift({x:s[0].x+d.x,y:s[0].y+d.y});if(s[0].x<0||s[0].x>=20||s[0].y<0||s[0].y>=20||s.slice(1).some(p=>p.x===s[0].x&&p.y===s[0].y)){clearInterval(snakeGame);showNotification('انتهت اللعبة! نقاطك: '+sc);return;}if(s[0].x===f.x&&s[0].y===f.y){f={x:Math.floor(Math.random()*20),y:Math.floor(Math.random()*20)};sc++;document.getElementById('snakeScore').textContent=sc;}else s.pop();ctx.fillStyle='#4caf50';s.forEach(p=>ctx.fillRect(p.x*20,p.y*20,18,18));ctx.fillStyle='#f44336';ctx.fillRect(f.x*20,f.y*20,18,18);}snakeGame=setInterval(loop,100);document.onkeydown=e=>{if(e.key==='ArrowUp'&&d.y===0)d={x:0,y:-1};if(e.key==='ArrowDown'&&d.y===0)d={x:0,y:1};if(e.key==='ArrowLeft'&&d.x===0)d={x:-1,y:0};if(e.key==='ArrowRight'&&d.x===0)d={x:1,y:0};};}
+
+    // FOOTBALL
+    function startFootball(){cancelAnimationFrame(footballAnim);const c=document.getElementById('footballCanvas'),ctx=c.getContext('2d');let ball={x:200,y:250,r:15},goal={x:150,y:0,w:100,h:20},gk={x:200,y:30,w:40,h:10},score=0,kicked=false,vx=0,vy=0;document.getElementById('footballScore').textContent=0;function loop(){ctx.fillStyle='#4caf50';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='white';ctx.fillRect(goal.x,goal.y,goal.w,goal.h);ctx.fillStyle='#ff9800';ctx.fillRect(gk.x,gk.y,gk.w,gk.h);ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();ctx.strokeStyle='black';ctx.stroke();if(kicked){ball.x+=vx;ball.y+=vy;if(ball.y<0){if(ball.x>goal.x&&ball.x<goal.x+goal.w){score++;document.getElementById('footballScore').textContent=score;showNotification('هدف! ⚽');}resetBall();}}gk.x+=(Math.random()-0.5)*4;gk.x=Math.max(0,Math.min(c.width-gk.w,gk.x));requestAnimationFrame(loop);}function resetBall(){ball={x:200,y:250,r:15};kicked=false;}c.onclick=e=>{if(kicked)return;const rect=c.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;vx=(ball.x-mx)*0.05;vy=(ball.y-my)*0.05;if(vy>-2)vy=-2;kicked=true;};loop();}
+
+    // WAR
+    function startWar(){cancelAnimationFrame(warAnim);const c=document.getElementById('warCanvas'),ctx=c.getContext('2d');let p={x:200,y:350,w:30,h:30},enemies=[],bullets=[],score=0,lives=3,lastSpawn=0;document.getElementById('warScore').textContent=0;document.getElementById('warLives').textContent=3;document.onkeydown=e=>warKeys[e.key.toLowerCase()]=true;document.onkeyup=e=>warKeys[e.key.toLowerCase()]=false;c.onclick=e=>{const rect=c.getBoundingClientRect();bullets.push({x:p.x+15,y:p.y-10,vx:0,vy:-8});};function loop(){if(Date.now()-lastSpawn>1000){enemies.push({x:Math.random()*(c.width-30),y:-30,w:30,h:30});lastSpawn=Date.now();}if(warKeys['w']&&p.y>0)p.y-=5;if(warKeys['s']&&p.y<c.height-p.h)p.y+=5;if(warKeys['a']&&p.x>0)p.x-=5;if(warKeys['d']&&p.x<c.width-p.w)p.x+=5;ctx.fillStyle='#263238';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#4caf50';ctx.fillRect(p.x,p.y,p.w,p.h);bullets=bullets.filter(b=>{b.y+=b.vy;ctx.fillStyle='#ffeb3b';ctx.fillRect(b.x-2,b.y,4,10);return b.y>0;});enemies=enemies.filter(e=>{e.y+=2;ctx.fillStyle='#f44336';ctx.fillRect(e.x,e.y,e.w,e.h);if(e.y>c.height){lives--;document.getElementById('warLives').textContent=lives;if(lives<=0){cancelAnimationFrame(warAnim);showNotification('انتهت اللعبة! نقاطك: '+score);}return false;}let hit=false;bullets.forEach((b,bi)=>{if(b.x>e.x&&b.x<e.x+e.w&&b.y>e.y&&b.y<e.y+e.h){hit=true;bullets.splice(bi,1);score++;document.getElementById('warScore').textContent=score;}});return !hit;});requestAnimationFrame(loop);}loop();}
+
+    // FLAPPY BIRD
+    function startFlappy(){cancelAnimationFrame(flappyAnim);const c=document.getElementById('flappyCanvas'),ctx=c.getContext('2d');let bird={x:80,y:250,vy:0,r:15},pipes=[],score=0,frame=0,gameOver=false;document.getElementById('flappyScore').textContent=0;function loop(){ctx.fillStyle='#87CEEB';ctx.fillRect(0,0,c.width,c.height);if(!gameOver){bird.vy+=0.5;bird.y+=bird.vy;if(frame%90===0){let gap=120,gy=Math.random()*(c.height-gap-100)+50;pipes.push({x:c.width,gy,gap,scored:false});}pipes.forEach(p=>{p.x-=3;ctx.fillStyle='#4caf50';ctx.fillRect(p.x,0,50,p.gy);ctx.fillRect(p.x,p.gy+p.gap,50,c.height-p.gy-p.gap);if(!p.scored&&p.x+50<bird.x){p.scored=true;score++;document.getElementById('flappyScore').textContent=score;}if(bird.x+bird.r>p.x&&bird.x-bird.r<p.x+50&&(bird.y-bird.r<p.gy||bird.y+bird.r>p.gy+p.gap)){gameOver=true;showNotification('انتهت اللعبة! نقاطك: '+score);}});frame++;}ctx.beginPath();ctx.arc(bird.x,bird.y,bird.r,0,Math.PI*2);ctx.fillStyle='#FFD700';ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#333';ctx.beginPath();ctx.arc(bird.x+5,bird.y-3,3,0,Math.PI*2);ctx.fill();if(!gameOver)requestAnimationFrame(loop);}flappyAnim=loop();document.onkeydown=e=>{if(e.code==='Space'){bird.vy=-8;}};c.onclick=()=>{bird.vy=-8;};}
+
+    // MEMORY GAME
+    function startMemory(){const board=document.getElementById('memoryBoard');board.innerHTML='';const emojis=['🌟','🎮','📚','','🎵','🎨','🚀','🌍'];let cards=[...emojis,...emojis].sort(()=>Math.random()-0.5);let flipped=[],matched=0,moves=0;document.getElementById('memoryMoves').textContent=0;cards.forEach((emoji,i)=>{const card=document.createElement('div');card.style.cssText=`height:80px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;transition:all 0.3s;`;card.dataset.emoji=emoji;card.dataset.index=i;card.textContent='❓';card.onclick=()=>flipCard(card);board.appendChild(card);});function flipCard(card){if(flipped.length>=2||card.dataset.flipped==='true'||card.dataset.matched==='true')return;card.textContent=card.dataset.emoji;card.style.background='var(--white)';card.dataset.flipped='true';flipped.push(card);if(flipped.length===2){moves++;document.getElementById('memoryMoves').textContent=moves;setTimeout(()=>{if(flipped[0].dataset.emoji===flipped[1].dataset.emoji){flipped.forEach(c=>{c.dataset.matched='true';c.style.background='#c8e6c9';c.style.cursor='default';});matched+=2;if(matched===cards.length)showNotification('مبروك! أنهيت اللعبة في '+moves+' محاولة! 🎉');}else{flipped.forEach(c=>{c.textContent='❓';c.style.background='var(--primary)';c.dataset.flipped='false';});}flipped=[];},800);}}}
+
+    // MATH GAME
+    function startMath(){clearInterval(mathInterval);let score=0,time=60;document.getElementById('mathScore').textContent=0;document.getElementById('mathTime').textContent=60;newMathQuestion();mathInterval=setInterval(()=>{time--;document.getElementById('mathTime').textContent=time;if(time<=0){clearInterval(mathInterval);showNotification('انتهى الوقت! نقاطك: '+score);}},1000);}
+    function newMathQuestion(){const a=Math.floor(Math.random()*50)+1,b=Math.floor(Math.random()*50)+1;const ops=['+','-','×'];const op=ops[Math.floor(Math.random()*3)];let ans;if(op==='+')ans=a+b;else if(op==='-')ans=a-b;else ans=a*b;document.getElementById('mathQuestion').textContent=`${a} ${op} ${b} = ?`;document.getElementById('mathQuestion').dataset.answer=ans;document.getElementById('mathAnswer').value='';document.getElementById('mathAnswer').focus();}
+    function checkMathAnswer(){const ans=parseInt(document.getElementById('mathAnswer').value);const correct=parseInt(document.getElementById('mathQuestion').dataset.answer);if(ans===correct){let score=parseInt(document.getElementById('mathScore').textContent)+10;document.getElementById('mathScore').textContent=score;newMathQuestion();}else{showNotification('إجابة خاطئة! الإجابة الصحيحة: '+correct);}}
+
+    // PING PONG
+    function startPingPong(){cancelAnimationFrame(ppAnim);const c=document.getElementById('pingpongCanvas'),ctx=c.getContext('2d');let ball={x:200,y:150,vx:4,vy:3,r:8},p1={x:10,y:130,w:10,h:60},p2={x:380,y:130,w:10,h:60},s1=0,s2=0;document.getElementById('ppPlayer').textContent=0;document.getElementById('ppCPU').textContent=0;c.onmousemove=e=>{const rect=c.getBoundingClientRect();p1.y=e.clientY-rect.top-p1.h/2;p1.y=Math.max(0,Math.min(c.height-p1.h,p1.y));};function loop(){ctx.fillStyle='#263238';ctx.fillRect(0,0,c.width,c.height);ctx.setLineDash([5,5]);ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.beginPath();ctx.moveTo(c.width/2,0);ctx.lineTo(c.width/2,c.height);ctx.stroke();ctx.setLineDash([]);ball.x+=ball.vx;ball.y+=ball.vy;if(ball.y<0||ball.y>c.height)ball.vy*=-1;p2.y+=(ball.y-p2.y-p2.h/2)*0.08;p2.y=Math.max(0,Math.min(c.height-p2.h,p2.y));if(ball.x-ball.r<p1.x+p1.w&&ball.y>p1.y&&ball.y<p1.y+p1.h){ball.vx*=-1;ball.vx*=1.02;}if(ball.x+ball.r>p2.x&&ball.y>p2.y&&ball.y<p2.y+p2.h){ball.vx*=-1;ball.vx*=1.02;}if(ball.x<0){s2++;document.getElementById('ppCPU').textContent=s2;resetBall();}if(ball.x>c.width){s1++;document.getElementById('ppPlayer').textContent=s1;resetBall();}ctx.fillStyle='white';ctx.fillRect(p1.x,p1.y,p1.w,p1.h);ctx.fillRect(p2.x,p2.y,p2.w,p2.h);ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();ppAnim=requestAnimationFrame(loop);}function resetBall(){ball={x:200,y:150,vx:4*(Math.random()>0.5?1:-1),vy:3*(Math.random()>0.5?1:-1),r:8};}loop();}
+
+    // QURAN
+    function loadSurahList(){const l=document.getElementById('surahList');if(!l||l.children.length>0)return;surahNames.forEach((s,i)=>{const li=document.createElement('li');li.className='surah-item';li.innerHTML=`<span>${s}</span><span class="surah-number">${i+1}</span>`;li.onclick=()=>loadSurah(i+1);l.appendChild(li);});}
+    async function loadSurah(n){try{const r=await fetch(`https://api.alquran.cloud/v1/surah/${n}`);const d=await r.json();if(d.code===200){const s=d.data;document.getElementById('currentSurahName').textContent=`سورة ${s.name}`;document.getElementById('currentSurahInfo').textContent=`${s.numberOfAyahs} آية`;document.getElementById('quranContent').innerHTML=s.ayahs.map(a=>`<p>${a.text} ﴿${a.numberInSurah}﴾</p>`).join('');document.querySelectorAll('.surah-item').forEach((el,i)=>el.classList.toggle('active',i+1===n));}}catch(e){document.getElementById('quranContent').innerHTML='<p style="color:red">خطأ</p>';} }
+    function downloadQuran(){window.open('https://alquran.cloud/pdf','_blank');}
+
+    // NAMES OF ALLAH
+    function loadNames(){const g=document.getElementById('namesGrid');if(g.children.length>0)return;allahNames99.forEach(n=>{g.innerHTML+=`<div class="name-card"><div class="name-number">${n.n}</div><div class="name-arabic">${n.name}</div><div class="name-meaning">${n.m}</div></div>`;});}
+
+    // CULTURE
+    function loadCulture(){const g=document.getElementById('culturalGrid');g.innerHTML='';const idx=new Date().getDate();const infos=culturalInfo.slice(idx%4,idx%4+4);if(infos.length<4){const extra=culturalInfo.slice(0,4-infos.length);infos.push(...extra);}infos.forEach((info,i)=>{g.innerHTML+=`<div class="cultural-card"><div class="cultural-card-header"><div class="cultural-icon"><i class="fas ${info.icon}"></i></div><h3 class="cultural-title">${info.title}</h3></div><div class="cultural-content">${info.text}</div></div>`;});}
+
+    // ISLAMIC
+    function loadIslamicDaily(){const idx=new Date().getDate();document.getElementById('dailyHadith').textContent=hadithData[idx%hadithData.length].text;document.getElementById('hadithSource').textContent=hadithData[idx%hadithData.length].source;document.getElementById('dailyDua').textContent=duaData[idx%duaData.length];document.getElementById('dailyName').innerHTML=`<h3 style="color:var(--primary);font-size:1.8rem">${namesOfAllah[idx%namesOfAllah.length].name}</h3><p>${namesOfAllah[idx%namesOfAllah.length].meaning}</p>`;const v=["بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ","اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ","وَقُل رَّبِّ زِدْنِي عِلْمًا","إِنَّ مَعَ الْعُسْرِ يُسْرًا"];document.getElementById('dailyVerse').innerHTML=`<p style="font-family:'Amiri';font-size:1.6rem">${v[idx%v.length]}</p>`;document.getElementById('dailyReligiousInfo').textContent=religiousInfoData[idx%religiousInfoData.length];}
+
+    // AI CHAT
+    function toggleChat(){document.getElementById('chatWindow').classList.toggle('active');}
+    function sendMessage(){const inp=document.getElementById('chatInput'),msg=inp.value.trim();if(!msg)return;const d=document.createElement('div');d.className='chat-message user';d.textContent=msg;document.getElementById('chatMessages').appendChild(d);inp.value='';setTimeout(()=>{const b=document.createElement('div');b.className='chat-message bot';const m=msg.toLowerCase();if(m.includes('يوسف'))b.textContent='👑 يوسف عز مبدع الموقع والرائد! 🌟';else if(m.includes('هنا'))b.textContent='👑 هنا مصطفي الرائدة! 🌟';else if(m.includes('جدول'))b.textContent='📅 الأحد: فلسفة، تاريخ، رياضة، فرنسي\nالإثنين: نشاط، علوم، إنجليزي، عربي\nالثلاثاء: برمجة، ألعاب، تاريخ، فلسفة\nالأربعاء: عربي، رياضة، دين، علوم\nالخميس: إنجليزي، برمجة، عربي، علوم';else if(m.includes('مذاكرة'))b.textContent='💡 نصائح:\n1. حدد وقت ثابت\n2. استخدم البومودورو\n3. لخص بأسلوبك\n4. راجع قبل النوم';else if(m.includes('سلام')||m.includes('مرحبا'))b.textContent='وعليكم السلام! 👋 كيف أقدر أساعدك؟';else b.textContent='🤖 أنا مساعدك للفصل 1/8. اسألني عن الجدول، المذاكرة، أو أي شيء!';document.getElementById('chatMessages').appendChild(b);document.getElementById('chatMessages').scrollTop=document.getElementById('chatMessages').scrollHeight;},500);}
+
+    // CELEBRATION & UTILS
+    function triggerCelebration(){document.getElementById('celebrationOverlay').classList.add('active');startConfetti();}
+    function closeCelebration(){document.getElementById('celebrationOverlay').classList.remove('active');stopConfetti();}
+    let confettiAnim;
+    function startConfetti(){const cv=document.getElementById('confettiCanvas'),ctx=cv.getContext('2d');cv.width=window.innerWidth;cv.height=window.innerHeight;const p=[];const cols=['#ffd700','#ff6f00','#1a237e','#00c853','#f44336','#2196f3'];for(let i=0;i<300;i++)p.push({x:Math.random()*cv.width,y:Math.random()*cv.height-cv.height,w:Math.random()*10+5,h:Math.random()*10+5,c:cols[Math.floor(Math.random()*cols.length)],s:Math.random()*3+2,a:Math.random()*360,sp:Math.random()*0.2-0.1});function d(){ctx.clearRect(0,0,cv.width,cv.height);p.forEach(p=>{p.y+=p.s;p.a+=p.sp;if(p.y>cv.height)p.y=-20;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});confettiAnim=requestAnimationFrame(d);}d();}
+    function stopConfetti(){if(confettiAnim)cancelAnimationFrame(confettiAnim);}
+    function showNotification(m){const n=document.createElement('div');n.style.cssText='position:fixed;top:100px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white;padding:1rem 2rem;border-radius:50px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:10000;font-weight:600;animation:fadeIn 0.3s;';n.textContent=m;document.body.appendChild(n);setTimeout(()=>{n.style.opacity='0';n.style.transition='opacity 0.3s';setTimeout(()=>n.remove(),300);},3000);}
+
+    document.addEventListener('keydown',e=>{if(e.code==='Space'&&e.target.tagName!=='INPUT'){e.preventDefault();incrementTasbih();}if(e.code==='Escape'){document.getElementById('chatWindow').classList.remove('active');closeCelebration();}});
+    window.addEventListener('resize',()=>{const c=document.getElementById('confettiCanvas');if(c){c.width=window.innerWidth;c.height=window.innerHeight;}});
+    </script>
+</body>
+</html>
